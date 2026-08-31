@@ -1,0 +1,122 @@
+interactions:
+- request:
+    body: '{"model":"qwen2.5:14b","messages":[{"role":"user","content":"You are a
+      research-search planner. NEVER GUESS ANYTHING. IF ANYTHING IS NOT IN THE QUERY,
+      RETURN NULL FOR IT. Reply with JSON matching this schema:\n        {topics:
+      [str], countries: [str], min_year: int|null, supervisor_rank: str|null, degree_level:
+      str|null}\n        Query: large language models"}],"stream":false,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '420'
+      content-type:
+      - application/json
+      host:
+      - 127.0.0.1:11434
+      user-agent:
+      - scholar-agent (ali.jafari20@gmail.com)
+    method: POST
+    uri: http://127.0.0.1:11434/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-600","object":"chat.completion","created":1788214429,"model":"qwen2.5:14b","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"{\n  \"topics\":
+        [\"large language models\"],\n  \"countries\": [],\n  \"min_year\": null,\n  \"supervisor_rank\":
+        null,\n  \"degree_level\": null\n}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":100,"completion_tokens":39,"total_tokens":139}}
+
+        '
+    headers:
+      content-length:
+      - '437'
+      content-type:
+      - application/json
+      date:
+      - Mon, 31 Aug 2026 22:13:49 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"qwen2.5:14b","messages":[{"role":"user","content":"You are a
+      research-search planner. NEVER GUESS ANYTHING. IF ANYTHING IS NOT IN THE QUERY,
+      RETURN NULL FOR IT. Reply with JSON matching this schema:\n        {topics:
+      [str], countries: [str], min_year: int|null, supervisor_rank: str|null, degree_level:
+      str|null}\n        Query: large language models"}],"stream":false,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '420'
+      content-type:
+      - application/json
+      host:
+      - 127.0.0.1:11434
+      user-agent:
+      - scholar-agent (ali.jafari20@gmail.com)
+    method: POST
+    uri: http://127.0.0.1:11434/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-458","object":"chat.completion","created":1788219149,"model":"qwen2.5:14b","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"{\n  \"topics\":
+        [\"large language models\"],\n  \"countries\": [],\n  \"min_year\": null,\n  \"supervisor_rank\":
+        null,\n  \"degree_level\": null\n}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":100,"completion_tokens":39,"total_tokens":139}}
+
+        '
+    headers:
+      content-length:
+      - '437'
+      content-type:
+      - application/json
+      date:
+      - Mon, 31 Aug 2026 23:32:29 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"qwen2.5:14b","messages":[{"role":"user","content":"You are a
+      research-search planner. NEVER GUESS ANYTHING. IF ANYTHING IS NOT IN THE QUERY,
+      RETURN NULL FOR IT. Reply with JSON matching this schema:\n        {topics:
+      [str], countries: [str], min_year: int|null, supervisor_rank: str|null, degree_level:
+      str|null}\n        Query: large language models"}],"stream":false,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '420'
+      content-type:
+      - application/json
+      host:
+      - 127.0.0.1:11434
+      user-agent:
+      - scholar-agent (ali.jafari20@gmail.com)
+    method: POST
+    uri: http://127.0.0.1:11434/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-872","object":"chat.completion","created":1788219484,"model":"qwen2.5:14b","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"{\n  \"topics\":
+        [\"large language models\"],\n  \"countries\": [],\n  \"min_year\": null,\n  \"supervisor_rank\":
+        null,\n  \"degree_level\": null\n}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":100,"completion_tokens":39,"total_tokens":139}}
+
+        '
+    headers:
+      content-length:
+      - '437'
+      content-type:
+      - application/json
+      date:
+      - Mon, 31 Aug 2026 23:38:04 GMT
+    status:
+      code: 200
+      message: OK
+version: 1

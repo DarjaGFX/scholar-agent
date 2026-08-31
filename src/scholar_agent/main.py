@@ -51,5 +51,5 @@ async def search(
                 for scholar in scholars
             ]
         )
-    except httpx.HTTPStatusError as exc:
+    except httpx.HTTPError as exc:
         raise HTTPException(status_code=502, detail="upstream unavailable")

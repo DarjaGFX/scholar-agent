@@ -1,0 +1,125 @@
+interactions:
+- request:
+    body: '{"model":"qwen2.5:14b","messages":[{"role":"user","content":"You are a
+      research-search planner. NEVER GUESS ANYTHING. IF ANYTHING IS NOT IN THE QUERY,
+      RETURN NULL FOR IT. Reply with JSON matching this schema:\n        {topics:
+      [str], countries: [str], min_year: int|null, supervisor_rank: str|null, degree_level:
+      str|null}\n        Query: PhD position in AI, Europe, active researcher professor
+      since 2020"}],"stream":false,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '465'
+      content-type:
+      - application/json
+      host:
+      - 127.0.0.1:11434
+      user-agent:
+      - scholar-agent (ali.jafari20@gmail.com)
+    method: POST
+    uri: http://127.0.0.1:11434/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-569","object":"chat.completion","created":1788214445,"model":"qwen2.5:14b","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"{\n  \"topics\":
+        [\"AI\"],\n  \"countries\": [\"Europe\"],\n  \"min_year\": 2020,\n  \"supervisor_rank\":
+        \"Professor\",\n  \"degree_level\": \"PhD\"\n}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":113,"completion_tokens":46,"total_tokens":159}}
+
+        '
+    headers:
+      content-length:
+      - '440'
+      content-type:
+      - application/json
+      date:
+      - Mon, 31 Aug 2026 22:14:05 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"qwen2.5:14b","messages":[{"role":"user","content":"You are a
+      research-search planner. NEVER GUESS ANYTHING. IF ANYTHING IS NOT IN THE QUERY,
+      RETURN NULL FOR IT. Reply with JSON matching this schema:\n        {topics:
+      [str], countries: [str], min_year: int|null, supervisor_rank: str|null, degree_level:
+      str|null}\n        Query: PhD position in AI, Europe, active researcher professor
+      since 2020"}],"stream":false,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '465'
+      content-type:
+      - application/json
+      host:
+      - 127.0.0.1:11434
+      user-agent:
+      - scholar-agent (ali.jafari20@gmail.com)
+    method: POST
+    uri: http://127.0.0.1:11434/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-769","object":"chat.completion","created":1788219165,"model":"qwen2.5:14b","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"{\n  \"topics\":
+        [\"AI\"],\n  \"countries\": [\"Europe\"],\n  \"min_year\": 2020,\n  \"supervisor_rank\":
+        \"Professor\",\n  \"degree_level\": \"PhD\"\n}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":113,"completion_tokens":46,"total_tokens":159}}
+
+        '
+    headers:
+      content-length:
+      - '440'
+      content-type:
+      - application/json
+      date:
+      - Mon, 31 Aug 2026 23:32:45 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"qwen2.5:14b","messages":[{"role":"user","content":"You are a
+      research-search planner. NEVER GUESS ANYTHING. IF ANYTHING IS NOT IN THE QUERY,
+      RETURN NULL FOR IT. Reply with JSON matching this schema:\n        {topics:
+      [str], countries: [str], min_year: int|null, supervisor_rank: str|null, degree_level:
+      str|null}\n        Query: PhD position in AI, Europe, active researcher professor
+      since 2020"}],"stream":false,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '465'
+      content-type:
+      - application/json
+      host:
+      - 127.0.0.1:11434
+      user-agent:
+      - scholar-agent (ali.jafari20@gmail.com)
+    method: POST
+    uri: http://127.0.0.1:11434/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-224","object":"chat.completion","created":1788219498,"model":"qwen2.5:14b","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"{\n  \"topics\":
+        [\"AI\"],\n  \"countries\": [\"Europe\"],\n  \"min_year\": 2020,\n  \"supervisor_rank\":
+        \"Professor\",\n  \"degree_level\": \"PhD\"\n}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":113,"completion_tokens":46,"total_tokens":159}}
+
+        '
+    headers:
+      content-length:
+      - '440'
+      content-type:
+      - application/json
+      date:
+      - Mon, 31 Aug 2026 23:38:18 GMT
+    status:
+      code: 200
+      message: OK
+version: 1
