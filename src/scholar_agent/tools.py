@@ -1,3 +1,4 @@
+from scholar_agent.openalex import recent_works_count, get_author_topics
 from scholar_agent.ranking import search_scholars
 
 
@@ -27,6 +28,46 @@ FIND_SCHOLARS = {
                 "limit": {"type": "integer", "default": 5},
             },
             "required": ["topic"],
+        },
+    },
+}
+
+
+async def check_activity(client, author_id) -> dict:
+    n = await recent_works_count(client, author_id)
+    return {"author_id": author_id, "recent_works_since_2023": n, "active": n > 0}
+
+
+CHECK_ACTIVITY = {
+    "type": "function",
+    "function": {
+        "name": "check_activity",
+        "description": "Check whether an author is still publishing actively. Returns the number of works since 2023.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "author_id": {"type": "string", "description": "OpenAlex author id, e.g. 'https://openalex.org/A5036357902'"},
+            },
+            "required": ["author_id"],
+        },
+    },
+}
+
+
+async def assess_fit(client, author_id) -> dict:
+    return {"author_id": author_id, "top_topics": await get_author_topics(client, author_id)}
+
+ASSESS_FIT = {
+    "type": "function",
+    "function": {
+        "name": "assess_fit",
+        "description": "Get an author's top research topics (with relevance scores) to judge how well they fit a research interest.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "author_id": {"type": "string"},
+            },
+            "required": ["author_id"],
         },
     },
 }

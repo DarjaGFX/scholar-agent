@@ -85,14 +85,14 @@ async def search_scholars(topic: str, client: httpx.AsyncClient | None = None, l
 
     async def _search_scholars(client: httpx.AsyncClient) -> list[str]:
         authors = await top_authors_by_topic(client, topic, limit=limit)
-        filtered_authors = []
-        for author in authors:
-            author_data = await get_author(client, author['id'])
-            if is_real_researcher(author_data):
-                filtered_authors.append(author_data)
-        
-        filtered_authors.sort(key=rank_key, reverse=True)
-        return filtered_authors
+        sem = asyncio.Semaphore(10)
+        async def get_one(a):
+            async with sem:
+                return await get_author(client, a["id"])
+
+        hydrated = await asyncio.gather(*(get_one(a) for a in authors))
+        filtered = [r for r in hydrated if is_real_researcher(r)]
+        return filtered
 
     if client is not None:
         return await _search_scholars(client)
