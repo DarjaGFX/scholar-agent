@@ -10,9 +10,9 @@ def plan_prompt(query: str) -> str:
 
 async def plan_search(client: AsyncClient , query: str) -> SearchPlan:
     try:
-        content = await complete(client, messages=[{"role": "user", "content": plan_prompt(query)}], json_mode=True)
-        return SearchPlan.model_validate_json(content)
+        msg = await complete(client, messages=[{"role": "user", "content": plan_prompt(query)}], json_mode=True)
+        return SearchPlan.model_validate_json(msg["content"])
     except ValidationError as e:
         messages=[{"role": "user", "content": plan_prompt(query) + "\nReturned JSON was invalid: " + str(e.errors())[:400] + "\nPlease return valid JSON."}]
-        content = await complete(client, messages=messages, json_mode=True)
-        return SearchPlan.model_validate_json(content)
+        msg = await complete(client, messages=messages, json_mode=True)
+        return SearchPlan.model_validate_json(msg["content"])

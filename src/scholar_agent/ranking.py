@@ -26,12 +26,14 @@ def is_real_researcher(author: dict) -> bool:
         return False
     return True
 
+
 def rank_key(author: dict):
     if (author.get("works_count") or 0) == 0:
         return 0
     return (author.get("cited_by_count") or 0) / (author.get("works_count") or 0)
 
-async def search_scholars(topic: str, client: httpx.AsyncClient | None = None) -> list[dict]:
+
+async def search_scholars(topic: str, client: httpx.AsyncClient | None = None, limit: int = 25) -> list[dict]:
     """
     Search for top scholars for a given topic and return their details.
     
@@ -82,7 +84,7 @@ async def search_scholars(topic: str, client: httpx.AsyncClient | None = None) -
     """
 
     async def _search_scholars(client: httpx.AsyncClient) -> list[str]:
-        authors = await top_authors_by_topic(client, topic, limit=25)
+        authors = await top_authors_by_topic(client, topic, limit=limit)
         filtered_authors = []
         for author in authors:
             author_data = await get_author(client, author['id'])
