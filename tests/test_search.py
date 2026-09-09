@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 from httpx import ASGITransport
-from scholar_agent.ranking import HEADERS
+from scholar_agent.client import HEADERS
 import httpx
 from scholar_agent.main import app
 import pytest

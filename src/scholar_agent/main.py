@@ -5,7 +5,7 @@ from scholar_agent.ranking import search_scholars
 from fastapi import Depends
 from fastapi import Query
 from fastapi import Request
-from scholar_agent.ranking import HEADERS
+from scholar_agent.client import HEADERS
 import httpx
 from contextlib import asynccontextmanager
 from typing import Annotated

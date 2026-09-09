@@ -15,8 +15,9 @@ from pathlib import Path
 
 import httpx
 
+from scholar_agent.client import HEADERS, TIMEOUT
 from scholar_agent.openalex import top_authors_by_topic, get_author
-from scholar_agent.ranking import HEADERS, TIMEOUT, is_real_researcher
+from scholar_agent.ranking import is_real_researcher
 
 TOPICS = [
     "retrieval augmented generation",

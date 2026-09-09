@@ -1,4 +1,4 @@
-from scholar_agent.ranking import HEADERS
+from scholar_agent.client import HEADERS
 from scholar_agent.main import app
 import httpx
 import pytest
