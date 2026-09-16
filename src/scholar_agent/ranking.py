@@ -42,7 +42,7 @@ async def search_scholars(topic: str, client: httpx.AsyncClient | None = None, l
 
     async with client_scope(client) as client:
         authors = await top_authors_by_topic(client, topic, limit=limit)
-        sem = asyncio.Semaphore(10)
+        sem = asyncio.Semaphore(5)
         async def get_one(a):
             async with sem:
                 return await get_author(client, a["id"])
