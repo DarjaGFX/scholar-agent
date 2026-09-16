@@ -29,7 +29,16 @@ def mostly_latin(text: str) -> bool:
     latin = sum(1 for c in letters if unicodedata.name(c, "").startswith("LATIN"))
     return latin / len(letters) >= 0.5
 
-async def run_agent(query: str, client, max_steps: int = 5, trace: list=None) -> str:
+async def run_agent(
+    query: str,
+    client,
+    max_steps: int = 5,
+    trace: list=None,
+    model=None,
+    base_url=None,
+    api_key=None,
+    usage_out=None
+) -> str:
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": query},

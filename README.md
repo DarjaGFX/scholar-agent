@@ -84,6 +84,48 @@ arithmetic on lifetime totals can lift a low-resource NLP specialist above a
 generalist with 2,665 lifetime papers. Carrying the topical signal through
 nearly doubled precision.
 
+### Model comparison (structured output)
+
+Same five queries through the planner stage, driven by the environment
+(`uv run python -m evals.models`; providers, keys and model lists come from
+`LLM_PROVIDERS`, `<PROVIDER>_BASE_URL`, `<PROVIDER>_API_KEY`,
+`<PROVIDER>_MODELS` — adding a provider is three lines of config, no code):
+
+| arm | structured-output success | latency | tokens/query | notes |
+|-----|---------------------------|---------|--------------|-------|
+| `local` `qwen2.5:14b` | **5/5** | 11–33s | **137–142** | CPU inference, free |
+| `zen` `nemotron-3.5-lightning-free` | **5/5** | 48–126s | 1162–2796 | free tier, reasoning-heavy |
+| `zen` `nemotron-3-ultra-free` | 4/5 | 7–109s | 344–527 | 1 upstream server error |
+| `zen` `big-pickle` | 1/5 | 4–10s | ~360 | 4/5 rate-limited (429) |
+
+**The finding is the token column.** "Free" remote models are not free in
+latency or verbosity: the local 14B produced the same valid structured plans in
+**~140 tokens**, while the remote arms needed 340–2800 — 2.5× to 20× more —
+and answered 4–10× slower (48–126 s/query). Success rates were comparable
+(5/5 for two arms); the cost profile was not. A reasoning model that burns 20×
+the tokens for identical output is a decision you can only make with numbers,
+which is the entire point of owning this harness.
+
+Every provider-access failure is documented rather than hidden, because an
+evaluation that can't control its infrastructure ends up measuring the
+infrastructure:
+
+- **OpenRouter** — free tier allows **50 requests/day** (from `/api/v1/key`,
+  reset 00:00 UTC); the eval consumed it in two runs.
+- **agentrouter** — gateway returns `401 unauthorized client` to any client it
+  hasn't allowlisted, regardless of key.
+- **OpenCode Zen** — the free tier is **keyless**: it needs *no* `Authorization`
+  header (an unrecognized bearer returns 401) and **requires** the relay's
+  session-affinity header, `x-opencode-session`.
+
+One bug the harness caught in the project's own code: the schema required
+`countries: list[str]`, models legitimately emit `null`, and a single
+`field_validator` fixed it across providers — a model-compatibility bug found by
+measurement instead of by a user.
+
+
+
+
 
 ## Architecture
 
