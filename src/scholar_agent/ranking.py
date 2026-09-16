@@ -1,3 +1,4 @@
+from math import log
 from scholar_agent.client import client_scope
 import asyncio
 import httpx
@@ -27,10 +28,10 @@ def is_real_researcher(author: dict) -> bool:
 
 
 def rank_key(author: dict):
-    if (author.get("works_count") or 0) == 0:
-        return 0
-    return (author.get("cited_by_count") or 0) / (author.get("works_count") or 0)
-
+    topic_count = author.get("topic_count") or 0
+    # works_count = author.get("works_count") or 0
+    cited_by_count = author.get("cited_by_count") or 0
+    return (topic_count * log(cited_by_count + 2))
 
 async def search_scholars(topic: str, client: httpx.AsyncClient | None = None, limit: int = 25) -> list[dict]:
     """
@@ -42,6 +43,7 @@ async def search_scholars(topic: str, client: httpx.AsyncClient | None = None, l
 
     async with client_scope(client) as client:
         authors = await top_authors_by_topic(client, topic, limit=limit)
+        topic_count = {a["id"]: a["count"] for a in authors}
         sem = asyncio.Semaphore(5)
         async def get_one(a):
             async with sem:
@@ -49,4 +51,8 @@ async def search_scholars(topic: str, client: httpx.AsyncClient | None = None, l
 
         hydrated = await asyncio.gather(*(get_one(a) for a in authors))
         filtered = [r for r in hydrated if is_real_researcher(r)]
+        for r in filtered:
+            short = (r.get("id") or "").split("/")[-1]
+            r["topic_count"] = topic_count.get(short, 0)
+
         return sorted(filtered, key=rank_key, reverse=True)

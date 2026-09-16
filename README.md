@@ -42,6 +42,8 @@ OpenAlex record with real numbers.
 
 ## Measured results
 
+### The entity filter
+
 A hand-labeled golden set of 43 authors across 3 topics (human / not):
 
 ```
@@ -54,6 +56,34 @@ The single miss — a real researcher with an unusual publication/citation
 profile — was accepted on purpose. In this product a false positive (a fake
 "professor" in the results) destroys trust, while a false negative costs
 nothing visible.
+
+### Retrieval quality, and three ranking strategies
+
+Five queries with ground truth taken from the hand-labeled set
+(`uv run python -m evals`):
+
+```
+mean precision@5 = 0.80     single live run; lower bound — expected sets are
+mean latency     = 3.9s     non-exhaustive, so a correct researcher absent
+                            from a set still counts as a miss
+```
+
+Three ranking strategies were measured against the same queries — and the
+numbers chose:
+
+| ranking key                          | mean precision@5 |
+|--------------------------------------|------------------|
+| `citations / works` (impact density) | 0.40 |
+| `log(works) × ratio` (global hybrid) | 0.40 |
+| `topic_count × log(citations)`       | **0.80** |
+
+The first two failed for the same *structural* reason: they rank on global
+lifetime metrics, while the query-specific signal — how many of an author's
+works actually match the topic — was being discarded before the sort. No
+arithmetic on lifetime totals can lift a low-resource NLP specialist above a
+generalist with 2,665 lifetime papers. Carrying the topical signal through
+nearly doubled precision.
+
 
 ## Architecture
 
