@@ -1,0 +1,25 @@
+# Local overrides for the upstream Langfuse compose. Two reasons:
+#
+# 1. PORT HYGIENE — Langfuse's Postgres/Redis are internal to its own network and
+#    never need a host port. Releasing 5432/6379 here keeps them free for this
+#    repo's own Postgres+pgvector (Phase 7) and Redis (Phase 10).
+#
+# 2. EXPOSURE — upstream publishes the web UI on 0.0.0.0:3000 and MinIO on
+#    0.0.0.0:9090, i.e. reachable from the LAN by anyone on the same network.
+#    That UI mints project API keys and holds trace data, so both are bound to
+#    127.0.0.1 only.
+#
+# `!override` replaces the upstream list instead of merging with it
+# (Compose 2.24+; we run 2.40).
+services:
+  postgres:
+    ports: !override []
+  redis:
+    ports: !override []
+  langfuse-web:
+    ports: !override
+      - "127.0.0.1:3000:3000"
+  minio:
+    ports: !override
+      - "127.0.0.1:9090:9000"
+      - "127.0.0.1:9091:9001"

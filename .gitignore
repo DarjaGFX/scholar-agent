@@ -6,3 +6,7 @@ __pycache__/
 kb.sh
 
 provider.py
+
+# Langfuse self-host stack (infra/langfuse/)
+infra/langfuse/.env
+langfuse_*.json
