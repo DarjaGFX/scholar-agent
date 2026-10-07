@@ -1,3 +1,4 @@
+from scholar_agent.logging import log
 import os, uuid
 import httpx
 import asyncio
@@ -48,7 +49,7 @@ async def complete(client, messages, *, json_mode=False, tools=None, model=None,
             await asyncio.sleep(float(response.headers.get("Retry-After", 2 ** attempt)))
             continue
         if response.status_code == 400 and json_mode and attempt < 2:
-            print(f"Retrying without json mode because of: {response.text}")
+            log.warning("llm_retry", reason="json_mode_unsupported", model=model, status=response.status_code)
             json_mode = False
             payload.pop("response_format", None)
             continue

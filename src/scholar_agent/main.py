@@ -10,9 +10,12 @@ import httpx
 from contextlib import asynccontextmanager
 from typing import Annotated
 from fastapi import FastAPI
+from scholar_agent.logging import configure_logging
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    configure_logging()
     app.state.client = httpx.AsyncClient(headers=HEADERS, timeout=30)
     yield
     await app.state.client.aclose()

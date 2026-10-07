@@ -2,15 +2,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import asyncio, time, httpx
-from src.scholar_agent.providers import arms
+from scholar_agent.providers import arms
 from scholar_agent.planner import plan_search
 from evals.golden_queries import GOLDEN_QUERIES
+from scholar_agent.logging import configure_logging
 
+
+configure_logging()
 
 async def run_arm(arm):
     headers = {"Authorization": f"Bearer {arm['api_key']}"} if arm.get("api_key") else {}
     rows = []
-    async with httpx.AsyncClient(headers=headers, timeout=300) as client:
+    async with httpx.AsyncClient(headers=headers, timeout=httpx.Timeout(300.0, connect=10.0)) as client:
         for g in GOLDEN_QUERIES:
             usage = {}
             t0 = time.time()

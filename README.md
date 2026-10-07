@@ -114,9 +114,13 @@ infrastructure:
   reset 00:00 UTC); the eval consumed it in two runs.
 - **agentrouter** — gateway returns `401 unauthorized client` to any client it
   hasn't allowlisted, regardless of key.
-- **OpenCode Zen** — the free tier is **keyless**: it needs *no* `Authorization`
-  header (an unrecognized bearer returns 401) and **requires** the relay's
-  session-affinity header, `x-opencode-session`.
+- **OpenCode Zen** — the free tier was **keyless** (no `Authorization` header —
+  an unrecognized bearer returns 401) and required the relay's session-affinity
+  header, `x-opencode-session`. **The Zen free-tier rows below were measured
+  while that was true; the relay has since closed free models to non-OpenCode
+  clients (`403 FreeTierError: OpenCode's free tier can only be used in
+  OpenCode`), so those two arms can no longer be reproduced outside OpenCode.**
+  They are kept as measured history, not as a runnable configuration.
 
 One bug the harness caught in the project's own code: the schema required
 `countries: list[str]`, models legitimately emit `null`, and a single

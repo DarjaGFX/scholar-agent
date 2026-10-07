@@ -1,3 +1,4 @@
+from scholar_agent.logging import log
 import json
 import unicodedata
 import httpx
@@ -47,10 +48,11 @@ async def run_agent(
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": query},
     ]
-    for _ in range(max_steps):
+    for step in range(max_steps):
         for attempt in range(2):
             try:
                 msg = await complete(client, messages, tools=TOOL_SCHEMAS)
+                log.info("agent_step", step=step, n_tool_calls=len(msg.get("tool_calls") or []))
                 break
             except httpx.HTTPError:
                 if attempt == 1:
@@ -58,6 +60,7 @@ async def run_agent(
         
         if msg.get("content") and not mostly_latin(msg["content"]):
             messages.append({"role": "user", "content": "Your previous answer was not in English. Answer again in English only, under 120 words."})
+            log.warning("answer_not_english", corrected=True)
             continue
         
         if not msg.get("tool_calls"):
@@ -76,5 +79,6 @@ async def run_agent(
             except Exception as e:
                 content = f"tool error: {type(e).__name__}: {e}"
             messages.append({"role": "tool", "tool_call_id": call["id"], "content": content})
+        
     
     return "Reached max steps without a final answer."

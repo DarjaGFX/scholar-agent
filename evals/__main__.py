@@ -7,6 +7,10 @@ import time
 from scholar_agent.client import client_scope
 from scholar_agent.ranking import search_scholars
 from evals.golden_queries import GOLDEN_QUERIES
+from scholar_agent.logging import configure_logging
+
+
+configure_logging()
 
 DASHES = {"‐": "-", "‑": "-", "–": "-", "—": "-"}
 
