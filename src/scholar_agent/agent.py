@@ -1,6 +1,7 @@
 import json
 import unicodedata
 import httpx
+from langfuse import observe, get_client
 
 from scholar_agent.tools import (
     FIND_SCHOLARS,
@@ -29,16 +30,19 @@ def mostly_latin(text: str) -> bool:
     latin = sum(1 for c in letters if unicodedata.name(c, "").startswith("LATIN"))
     return latin / len(letters) >= 0.5
 
+@observe(as_type="agent", capture_input=True)
 async def run_agent(
     query: str,
     client,
     max_steps: int = 5,
     trace: list=None,
-    model=None,
+    model: str = None,
     base_url=None,
     api_key=None,
     usage_out=None
 ) -> str:
+    get_client().update_current_span(input={"query": query, "model": model})
+
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": query},

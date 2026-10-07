@@ -1,8 +1,10 @@
 from scholar_agent.openalex import recent_works_count, get_author_topics
 from scholar_agent.ranking import search_scholars
+from langfuse import observe, get_client
 
-
+@observe(capture_input=False)
 async def find_scholars(client, topic: str, limit: int = 5) -> list[dict]:
+    get_client().update_current_span(input={"topic": topic, "limit": limit})
     """Ranked real researchers for a topic, with metrics AND author id
     (id matters: later tools need it to chain)."""
     # wrap search_scholars(topic, client) — records already have "id"
@@ -33,7 +35,9 @@ FIND_SCHOLARS = {
 }
 
 
+@observe(capture_input=False)
 async def check_activity(client, author_id) -> dict:
+    get_client().update_current_span(input={"author_id": author_id})
     n = await recent_works_count(client, author_id)
     return {"author_id": author_id, "recent_works_since_2023": n, "active": n > 0}
 
@@ -54,7 +58,9 @@ CHECK_ACTIVITY = {
 }
 
 
+@observe(capture_input=False)
 async def assess_fit(client, author_id) -> dict:
+    get_client().update_current_span(input={"author_id": author_id})
     return {"author_id": author_id, "top_topics": await get_author_topics(client, author_id)}
 
 ASSESS_FIT = {

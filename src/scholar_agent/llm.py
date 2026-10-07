@@ -1,11 +1,13 @@
+import os, uuid
 import httpx
 import asyncio
-from scholar_agent.providers import resolve_default
 from typing import Any
-import os, uuid
+from scholar_agent.providers import resolve_default
+from langfuse import observe, get_client
 
 _SESSION_ID = os.environ.get("LLM_SESSION_ID") or uuid.uuid4().hex
 
+@observe(as_type="generation", capture_input=True)
 async def complete(client, messages, *, json_mode=False, tools=None, model=None, base_url=None, api_key=None, usage_out=None) -> dict:
     
     if base_url is None:
@@ -63,6 +65,16 @@ async def complete(client, messages, *, json_mode=False, tools=None, model=None,
         for k, v in (data.get("usage") or {}).items():
             if isinstance(v, int):
                 usage_out[k] = usage_out.get(k, 0) + v
+                
+    get_client().update_current_generation(
+        input=messages,
+        model=model,
+        usage_details={
+            "input": data.get("usage", {}).get("prompt_tokens", 0),
+            "output": data.get("usage", {}).get("completion_tokens", 0),
+            "total": data.get("usage", {}).get("total_tokens", 0),
+        } if data.get("usage") else None
+    )
     
     message = data["choices"][0]["message"]
     if message.get("content") is None:
